@@ -1,0 +1,40 @@
+.main {
+  display: flex;
+  flex-wrap: nowrap;
+  border-style: solid;
+  border-width: medium;
+  border-color: black;
+  height: 1000px;
+}
+
+.map {
+  border-style: solid;
+  border-width: medium;
+  border-color: red;
+  width: 50vw;
+  height: 50vh;
+}
+
+.listVIew {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  width: 30%;
+}
+
+nav {
+  text-align: center;
+}
+
+.navbar {
+  border-style: solid;
+  border-width: medium;
+  border-color: green;
+}
+
+
+.check {
+  border-style: solid;
+  border-width: medium;
+  border-color: black;
+}
