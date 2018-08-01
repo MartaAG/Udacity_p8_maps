@@ -2,18 +2,18 @@ import React, {Component} from 'react';
 import './App.css';
 import {places} from './components/data/places.js'
 import WikiImage from './components/WikiImage.js'
+import SearchPlaces from './components/SearchPlaces.js'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+
+    state = {
       markers: [],
       map: '',
       activeMarker: {},
       picture: '',
       windowIsOpened: false
     };
-  }
+
   componentDidMount() {
     window.initMap = this.initMap;
     loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo&callback=initMap')
@@ -76,21 +76,9 @@ class App extends Component {
 
       <main className="main">
 
-        <div className="listVIew">
+      <div className="listVIew">
+              <SearchPlaces markers={this.state.markers}/>
 
-          <div className="Filteroption">
-            <h2>Filter location</h2>
-            <input type="text" placeholder="Search"/>
-          </div>
-
-          <div className="Placelist">
-            <ul>
-              {
-                this.state.markers.map((marker) => (<li onClick={() => window.google.maps.event.trigger(marker, 'click', {})
-} key={marker.title}>{marker.title}</li>))
-              }
-            </ul>
-          </div>
 
           <div className="FetchedImage">
             {this.state.windowIsOpened && <WikiImage marker={this.state.activeMarker.article}/>}
