@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import './App.css';
+import './index.css';
 import {places} from './components/data/places.js'
 import WikiImage from './components/WikiImage.js'
 import SearchPlaces from './components/SearchPlaces.js'
+import WikiText from './components/WikiText.js'
 
 class App extends Component {
-
-    state = {
-      markers: [],
-      map: '',
-      activeMarker: {},
-      picture: '',
-      windowIsOpened: false
-    };
+  state = {
+    markers: [],
+    map: '',
+    activeMarker: {},
+    windowIsOpened: false,
+    infoBox: {},
+    placeInfo: {}
+  };
 
   componentDidMount() {
     window.initMap = this.initMap;
@@ -31,25 +32,35 @@ class App extends Component {
 
     this.setState({map});
 
-    var infowindow = new window.google.maps.InfoWindow({content: ""});
-
+    let infoBox = new window.google.maps.InfoWindow({content: ""});
+    controlledThis.setState({infoBox: infoBox});
     //Create markers on the map
     let markers = [];
     places.map((place) => {
       let marker = new window.google.maps.Marker({position: place.latlng, map: map, title: place.name, article: place.title});
-
-      //Opening infoWindow, add place name to InfoWindow
+      //Opening InfoWindow, add place name to InfoWindow
       marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        infowindow.setContent(marker.title)
+        if (controlledThis.state.windowIsOpened) {
+          controlledThis.setState({infoBox: infoBox.close()});
+          controlledThis.closeInfoWindow();
+        }
+        controlledThis.setState({
+          infoBox: infoBox.open(marker.get('map'), marker)
+        });
+        controlledThis.setState({
+          infoBox: infoBox.setContent(marker.title)
+        });
         controlledThis.openInfoWindow(marker);
+
+
       });
       markers.push(marker);
-
     })
     //Trigger close window after clicking on the map
     controlledThis.setState({markers: markers});
+
     map.addListener('click', function() {
+      controlledThis.setState({infoBox: infoBox.close()});
       controlledThis.closeInfoWindow()
     })
   }
@@ -58,12 +69,19 @@ class App extends Component {
   openInfoWindow = (marker) => {
     this.setState({activeMarker: marker, windowIsOpened: true});
     marker.setAnimation(window.google.maps.Animation.BOUNCE)
-     setTimeout(function(){ marker.setAnimation(null); }, 1000);
+    setTimeout(function() {
+      marker.setAnimation(null);
+    }, 1000);
+
   }
 
   //click on the map triggers closing photo
   closeInfoWindow = () => {
-      this.setState({activeMarker: {}, windowIsOpened: false})
+    this.setState({activeMarker: {}, windowIsOpened: false})
+  }
+
+  handleListItemClick = (marker) => {
+    window.google.maps.event.trigger(marker, 'click', {})
   }
 
   render() {
@@ -76,16 +94,18 @@ class App extends Component {
 
       <main className="main">
 
-      <div className="listVIew">
-              <SearchPlaces markers={this.state.markers}/>
+        <div className="listVIew">
+          <SearchPlaces markers={this.state.markers} handleListItemClick={this.handleListItemClick}
+        />
 
+          <section className="FetchedImage">
+            {this.state.windowIsOpened && <WikiImage marker={this.state.activeMarker.article} title={this.state.activeMarker.title}/>}
+            {this.state.windowIsOpened && <WikiText marker={this.state.activeMarker.article} title={this.state.activeMarker.title} />}
 
-          <div className="FetchedImage">
-            {this.state.windowIsOpened && <WikiImage marker={this.state.activeMarker.article}/>}
-          </div>
+          </section>
 
         </div>
-        <div className="map">
+        <div className="map" aria-labelledby="map" role="application">
           <div id="map"></div>
         </div>
       </main>

@@ -7,13 +7,112 @@
 
 html,
 body,
-#root {
+#root
+{
 	height: 100%;
 	width: 100%;
 	font-family: sans-serif;
 }
 
-.App,
-#map {
-	height: 100%;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+.App, #map {
+  height: 100%;
+  width: 100%;
+  border-style: solid;
+  border-width: medium;
+  border-color: purple;
+}
+
+.main {
+  display: flex;
+  flex-wrap: nowrap;
+  border-style: solid;
+  border-width: medium;
+  border-color: black;
+  width: 100%;
+  height: 95%;
+}
+
+.map {
+  border-style: solid;
+  border-width: medium;
+  border-color: red;
+  width: 70%
+}
+
+.listVIew {
+  border-style: solid;
+  border-width: medium;
+  border-color: blue;
+  width: 30%;
+}
+
+nav {
+  text-align: center;
+}
+
+.navbar {
+  border-style: solid;
+  border-width: medium;
+  border-color: green;
+}
+
+.FetchedImage {
+  border-style: solid;
+  border-width: medium;
+  border-color: pink;
+  max-width: 100%;
+}
+
+li {
+  cursor: pointer;
+}
+
+.Placelist {
+  border-style: solid;
+  border-width: medium;
+  border-color: red;
+  margin: 10px;
+}
+
+.Filteroption {
+  margin: 10px;
+}
+
+.overflow {
+	border-style: solid;
+	border-width: medium;
+	border-color: green;
+	height:150px;
+	width:100%;
+	overflow:auto;
+	color: black;
+	padding:10px;
+}
+
+/* responsive */
+
+@media only screen and (max-width: 600px) {
+  .main {
+    flex-direction: column;
+  }
+  .listVIew {
+    width: 100%;
+  }
+  .map {
+    width: 100%;
+    height: 100%;
+  }
 }
