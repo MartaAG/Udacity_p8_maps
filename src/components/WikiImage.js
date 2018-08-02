@@ -4,38 +4,45 @@ export class WikiImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      picture: []
+      picture: ''
     }
   }
   componentDidMount() {
     this.fetchImage();
   }
   componentDidUpdate(prevProps) {
-    if (this.props.marker !== prevProps.marker) {
+    if (this.props.article !== prevProps.article) {
       this.fetchImage();
     }
   }
-
+//fetching image from MediaWiki
   fetchImage() {
-    let controlledThis = this;
-    fetch("https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&origin=*&pithumbsize=500&titles=" + this.props.marker, {}).then(response => {
+    let thisComponent = this;
+    fetch("https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&origin=*&pithumbsize=500&titles=" + this.props.article, {}).then(response => {
       return response.json();
     }).then(data => {
 
       for (var prop in data.query.pages) {
         if (data.query.pages[prop].thumbnail) {
           this.setState({picture: data.query.pages[prop].thumbnail.source});
+        } else {
+          this.setState({picture: ""});
         }
         break;
       }
       //error handling
     }).catch(function(error) {
       let pageError = 'Parsing failed ' + error;
-      controlledThis.setState({text: pageError});
+      thisComponent.setState({text: pageError});
     })
   }
   render() {
-    return (<img src={this.state.picture} alt={"Photo of " + this.props.title} style={{
+    return (
+      <img
+      className="Photo"
+      src={this.state.picture}
+      alt={"Photo of " + this.props.title}
+      style={{
         maxWidth: '100%'
       }}/>)
   }

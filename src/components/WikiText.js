@@ -11,13 +11,14 @@ export class WikiText extends Component {
     this.fetchText();
   }
   componentDidUpdate(prevProps) {
-    if (this.props.marker !== prevProps.marker) {
+    if (this.props.article !== prevProps.article) {
       this.fetchText();
     }
   }
+  //fetching article from MediaWIki
   fetchText = () => {
-    let controlledThis = this;
-    fetch("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&origin=*&exintro=&explaintext=&titles=" + this.props.title, {}).then(response => {
+    let thisComponent = this;
+    fetch("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&origin=*&exintro=&exsentences=5&explaintext=&titles=" + this.props.article, {}).then(response => {
       return response.json();
     }).then(data => {
       for (var prop in data.query.pages) {
@@ -30,18 +31,20 @@ export class WikiText extends Component {
         break;
 
       }
+      //error handling
     }).catch(function(error) {
       let pageError = 'Parsing failed ' + error;
-      controlledThis.setState({text: pageError});
+      thisComponent.setState({text: pageError});
     })
 
   }
   render() {
 
     return (<section className="overflow">
+
       <h2>{this.props.title}</h2>
-      <h4>Provided by Wikipedia</h4>
-      <p>{this.state.text}</p>
+      <p className="wiki">Text and photo provided by Wikipedia</p>
+      <p className="bodytext">{this.state.text}</p>
     </section>)
   }
 }

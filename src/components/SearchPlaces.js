@@ -31,13 +31,19 @@ export class SearchPlaces extends Component {
       <input
         type="text"
         placeholder="Search by name"
-        aria-labelledby="filter"
+        aria-labelledby="search"
         value={this.props.query}
         onChange={(event) => this.updateQuery(event.target.value)}/>
 
       <div className="Placelist">
         <ul>
-          {filteredPlaces.map((place) => <li onClick={this.props.handleListItemClick.bind(this,place)} key={place.title}>{place.title}</li>)}
+          {filteredPlaces.map((place) => <li
+            className="list"
+            role="button"
+            tabIndex="0"
+            onClick={this.props.handleListItemClick.bind(this,place)}
+            onKeyPress={this.props.handleListItemClick.bind(this,place)}
+            key={place.title}>{place.title}</li>)}
         </ul>
       </div>
     </div>)

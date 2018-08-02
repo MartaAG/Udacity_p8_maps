@@ -4,24 +4,24 @@ export const places = [{
       title: "Wrocław_Zoo",
       name: "Wroclaw Zoo",
       latlng: {
-        lat: 51.098767,
-        lng: 17.036519
+        lat: 51.104126,
+        lng: 17.074197
       }
     }, {
       id: 2,
-      title: "Słodowa_Island",
+      title: "Słodowa Island",
       name: "Slodowa Island",
       latlng: {
-        lat: 51.101483,
-        lng: 17.029094
+        lat: 51.116109,
+        lng: 17.03752
       }
     }, {
       id: 3,
       title: "Wrocław_Fountain",
       name: "Wrocław Fountain",
       latlng: {
-        lat: 51.1161664,
-        lng: 17.0392099
+        lat: 51.108763,
+        lng: 17.078923
       }
     }, {
       id: 4,
@@ -36,8 +36,16 @@ export const places = [{
       title: "Wrocław_Opera",
       name: "Wroclaw Opera",
       latlng: {
-        lat: 51.115874,
-        lng: 17.047561
+        lat: 51.105611,
+        lng: 17.030566
       }
-    }
+    }, {
+     id: 6,
+     title: "Royal_Palace,_Wrocław",
+     name: "Royal Palace",
+     latlng: {
+       lat: 51.107476,
+       lng: 17.028872
+     }
+   }
   ]

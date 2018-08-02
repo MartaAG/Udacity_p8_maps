@@ -16,52 +16,53 @@ class App extends Component {
   };
 
   componentDidMount() {
+    //init map
     window.initMap = this.initMap;
-    loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo&callback=initMap')
+    loadJS('https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap')
   }
 
   initMap = () => {
-    let controlledThis = this;
+    let thisMap = this;
     let map = new window.google.maps.Map(document.getElementById('map'), {
       zoom: 13,
       center: {
-        lat: 51.098767,
-        lng: 17.036519
+        lat: 51.109491,
+        lng: 17.052547
       }
     })
 
     this.setState({map});
 
     let infoBox = new window.google.maps.InfoWindow({content: ""});
-    controlledThis.setState({infoBox: infoBox});
+    thisMap.setState({infoBox: infoBox});
     //Create markers on the map
     let markers = [];
-    places.map((place) => {
+    places.forEach((place) => {
       let marker = new window.google.maps.Marker({position: place.latlng, map: map, title: place.name, article: place.title});
       //Opening InfoWindow, add place name to InfoWindow
       marker.addListener('click', function() {
-        if (controlledThis.state.windowIsOpened) {
-          controlledThis.setState({infoBox: infoBox.close()});
-          controlledThis.closeInfoWindow();
+        if (thisMap.state.windowIsOpened) {
+          thisMap.setState({infoBox: infoBox.close()});
+          thisMap.closeInfoWindow();
         }
-        controlledThis.setState({
+        thisMap.setState({
           infoBox: infoBox.open(marker.get('map'), marker)
         });
-        controlledThis.setState({
+        thisMap.setState({
           infoBox: infoBox.setContent(marker.title)
         });
-        controlledThis.openInfoWindow(marker);
+        thisMap.openInfoWindow(marker);
 
 
       });
       markers.push(marker);
     })
-    //Trigger close window after clicking on the map
-    controlledThis.setState({markers: markers});
+
+    thisMap.setState({markers: markers});
 
     map.addListener('click', function() {
-      controlledThis.setState({infoBox: infoBox.close()});
-      controlledThis.closeInfoWindow()
+      thisMap.setState({infoBox: infoBox.close()});
+      thisMap.closeInfoWindow()
     })
   }
 
@@ -86,26 +87,29 @@ class App extends Component {
 
   render() {
     return (<div className="App">
-      <nav>
-        <div className="navbar">
-          <h1>Neighbourhood map</h1>
+      <header>
+        <div className="head">
+          <h1>Wrocław Neighbourhood Map</h1>
         </div>
-      </nav>
+      </header>
 
       <main className="main">
 
         <div className="listVIew">
-          <SearchPlaces markers={this.state.markers} handleListItemClick={this.handleListItemClick}
+          <SearchPlaces
+            markers={this.state.markers} handleListItemClick={this.handleListItemClick}
         />
 
-          <section className="FetchedImage">
-            {this.state.windowIsOpened && <WikiImage marker={this.state.activeMarker.article} title={this.state.activeMarker.title}/>}
-            {this.state.windowIsOpened && <WikiText marker={this.state.activeMarker.article} title={this.state.activeMarker.title} />}
-
-          </section>
+      <aside>
+            {this.state.windowIsOpened && <WikiImage article={this.state.activeMarker.article} title={this.state.activeMarker.title}/>}
+            {this.state.windowIsOpened && <WikiText article={this.state.activeMarker.article} title={this.state.activeMarker.title} />}
+          </aside>
 
         </div>
-        <div className="map" aria-labelledby="map" role="application">
+        <div
+          className="map"
+          aria-labelledby="map"
+          role="application">
           <div id="map"></div>
         </div>
       </main>
