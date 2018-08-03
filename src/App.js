@@ -39,15 +39,17 @@ class App extends Component {
     let markers = [];
     places.forEach((place) => {
       let marker = new window.google.maps.Marker({position: place.latlng, map: map, title: place.name, article: place.title});
-      //Opening InfoWindow, add place name to InfoWindow
+
       marker.addListener('click', function() {
         if (thisMap.state.windowIsOpened) {
           thisMap.setState({infoBox: infoBox.close()});
           thisMap.closeInfoWindow();
         }
+        //open infoWindow
         thisMap.setState({
           infoBox: infoBox.open(marker.get('map'), marker)
         });
+        // place name to InfoWindow
         thisMap.setState({
           infoBox: infoBox.setContent(marker.title)
         });
@@ -66,7 +68,7 @@ class App extends Component {
     })
   }
 
-  //Opening photo below the list
+  //Actions to be done when windowIsOpened
   openInfoWindow = (marker) => {
     this.setState({activeMarker: marker, windowIsOpened: true});
     marker.setAnimation(window.google.maps.Animation.BOUNCE)

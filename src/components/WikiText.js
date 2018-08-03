@@ -15,12 +15,21 @@ export class WikiText extends Component {
       this.fetchText();
     }
   }
+  //catching errors based on  https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+
+  handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response.json();
+}
   //fetching article from MediaWIki
   fetchText = () => {
     let thisComponent = this;
-    fetch("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&origin=*&exintro=&exsentences=5&explaintext=&titles=" + this.props.article, {}).then(response => {
-      return response.json();
-    }).then(data => {
+    fetch("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&origin=*&exintro=&exsentences=5&explaintext=&titles=" + this.props.article, {})
+    .then(this.handleErrors)
+    .then(data => {
+    //get first attribute from pages object
       for (var prop in data.query.pages) {
         let extract = data.query.pages[prop].extract
         if (extract.length !== 0) {
@@ -32,11 +41,11 @@ export class WikiText extends Component {
 
       }
       //error handling
-    }).catch(function(error) {
-      let pageError = 'Parsing failed ' + error;
-      thisComponent.setState({text: pageError});
-    })
-
+    }).catch(error =>
+      {
+          thisComponent.setState({text: "Error: " + error});
+      }
+    )
   }
   render() {
 

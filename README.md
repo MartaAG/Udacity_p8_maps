@@ -8,7 +8,19 @@ The project shows 6 interesting locations in Wroclaw. You can:
 
 ## How to run it?
 
-Git clone or download zip on your computer. Run the terminal. Write npm install and then npm start. THe project will launch and you can see it on your browser.
+Git clone or download zip on your computer. Run the terminal. Write npm install and then npm start. The project will launch and you can see it on your browser(at the address: localhost:3000).
+
+## Structure
+```
+App.js
+Folder components
+- Folder data
+-- data.js
+SearchPlaces.js
+WikiImage.js
+WikiText.js
+
+```
 
 ## Additional notes
 
